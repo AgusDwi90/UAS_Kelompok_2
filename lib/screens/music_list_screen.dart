@@ -6,7 +6,7 @@ import '../providers/favorite_provider.dart';
 import 'music_detail_screen.dart';
 
 class MusicListScreen extends StatefulWidget {
-  const MusicListScreen({Key? key}) : super(key: key);
+  const MusicListScreen({super.key});
 
   @override
   _MusicListScreenState createState() => _MusicListScreenState();
@@ -22,6 +22,14 @@ class _MusicListScreenState extends State<MusicListScreen> {
     Provider.of<FavoriteProvider>(context, listen: false).loadFavorites();
   }
 
+  String toTitleCase(String text) {
+    if (text.isEmpty) return text;
+    return text
+        .split(' ')
+        .map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase())
+        .join(' ');
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -29,8 +37,18 @@ class _MusicListScreenState extends State<MusicListScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Music App'),
-          bottom: const TabBar(
-            tabs: [
+          bottom: TabBar(
+            indicatorColor: Colors.white, // Warna garis indikator tab
+            labelColor: Colors.white, // Warna teks tab saat dipilih
+            unselectedLabelColor: Colors.grey[400], // Warna teks tab yang tidak dipilih
+            labelStyle: const TextStyle( // Gaya teks tab saat dipilih
+              fontSize: 18, // Ukuran teks untuk tab yang dipilih
+              fontWeight: FontWeight.bold, // Contoh tambahan: teks tebal
+            ),
+            unselectedLabelStyle: const TextStyle( // Gaya teks tab yang tidak dipilih
+              fontSize: 15, // Ukuran teks untuk tab yang tidak dipilih
+            ),
+            tabs: const [
               Tab(text: 'All Music'),
               Tab(text: 'Favorites'),
             ],
@@ -59,6 +77,7 @@ class _MusicListScreenState extends State<MusicListScreen> {
         }
 
         return ListView.builder(
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           itemCount: snapshot.data!.length,
           itemBuilder: (context, index) {
             final music = snapshot.data![index];
@@ -78,6 +97,7 @@ class _MusicListScreenState extends State<MusicListScreen> {
         }
 
         return ListView.builder(
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           itemCount: favorites.length,
           itemBuilder: (context, index) {
             return _buildMusicItem(favorites[index]);
@@ -91,53 +111,60 @@ class _MusicListScreenState extends State<MusicListScreen> {
     return Consumer<FavoriteProvider>(
       builder: (context, favoriteProvider, child) {
         final isFavorite = favoriteProvider.isFavorite(music.id);
-        
+
         return Card(
-      elevation: 2,
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: ListTile(
-        leading: ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: Image.network(
-            music.image,
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: ListTile(
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                music.image,
                 width: 50,
                 height: 50,
-                color: Colors.grey[300],
-                child: const Icon(Icons.music_note),
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: 50,
+                    height: 50,
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.music_note),
+                  );
+                },
+              ),
+            ),
+            title: Text(
+              toTitleCase(music.name), // Format judul menjadi capital each word
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            subtitle: Text(
+              '${music.artistName} • ${music.genre}',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Colors.grey[700],
+                  ),
+            ),
+            trailing: IconButton(
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: isFavorite ? Colors.red : Colors.grey,
+              ),
+              onPressed: () => favoriteProvider.toggleFavorite(music),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MusicDetailScreen(music: music),
+                ),
               );
             },
           ),
-        ),
-        title: Text(music.name),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(music.artistName),
-            Text('${music.genre} - ${music.year}'),
-          ],
-        ),
-        trailing: IconButton(
-          icon: Icon(
-            isFavorite ? Icons.favorite : Icons.favorite_border,
-            color: isFavorite ? Colors.red : null,
-          ),
-          onPressed: () => favoriteProvider.toggleFavorite(music),
-        ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MusicDetailScreen(music: music),
-            ),
-          );
-        },
-      ),
-    );
+        );
       },
     );
   }
