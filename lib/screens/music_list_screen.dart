@@ -15,11 +15,13 @@ class MusicListScreen extends StatefulWidget {
 class _MusicListScreenState extends State<MusicListScreen> {
   late Future<List<Music>> _musicList;
 
-  @override
+ @override
   void initState() {
     super.initState();
     _musicList = ApiService().fetchMusic();
-    Provider.of<FavoriteProvider>(context, listen: false).loadFavorites();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<FavoriteProvider>(context, listen: false).loadFavorites();
+    });
   }
 
   String toTitleCase(String text) {

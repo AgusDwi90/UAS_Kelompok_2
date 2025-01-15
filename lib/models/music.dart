@@ -18,17 +18,29 @@ class Music {
   });
 
   factory Music.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> artists = json['artist'] ?? [];
-    final List<dynamic> genres = json['genre'] ?? [];
-    
-    return Music(
-      id: json['id'] ?? '',
-      name: json['name'] ?? '',
-      artistName: artists.isNotEmpty ? artists[0]['name'] ?? '' : '',
-      year: json['year']?.toString() ?? '',
-      image: json['image'] ?? '',
-      genre: genres.isNotEmpty ? genres[0]['name'] ?? '' : '',
-    );
+    if (json.containsKey('artist') && json['artist'] is List) {
+      final List<dynamic> artists = json['artist'] ?? [];
+      final List<dynamic> genres = json['genre'] ?? [];
+      
+      return Music(
+        id: json['id'] ?? '',
+        name: json['name'] ?? '',
+        artistName: artists.isNotEmpty ? artists[0]['name'] ?? '' : '',
+        year: json['year']?.toString() ?? '',
+        image: json['image'] ?? '',
+        genre: genres.isNotEmpty ? genres[0]['name'] ?? '' : '',
+      );
+    } 
+    else {
+      return Music(
+        id: json['id'] ?? '',
+        name: json['name'] ?? '',
+        artistName: json['artistName'] ?? '',
+        year: json['year']?.toString() ?? '',
+        image: json['image'] ?? '',
+        genre: json['genre'] ?? '',
+      );
+    }
   }
 
   Map<String, dynamic> toMap() {

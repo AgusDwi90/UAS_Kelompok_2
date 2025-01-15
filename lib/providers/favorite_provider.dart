@@ -1,10 +1,9 @@
 import 'package:flutter/foundation.dart';
-import '../models/music.dart';
-import '../services/database_helper.dart';
+import 'package:osdb/models/music.dart';
+import 'package:osdb/services/database_helper.dart';
 
 class FavoriteProvider with ChangeNotifier {
   final List<Music> _favorites = [];
-
   List<Music> get favorites => _favorites;
 
   Future<void> loadFavorites() async {

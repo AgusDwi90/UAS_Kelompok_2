@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/music.dart';
@@ -8,8 +9,16 @@ class DatabaseHelper {
 
   DatabaseHelper._init();
 
-  Future<Database> get database async {
+    Future<Database> get database async {
     if (_database != null) return _database!;
+    
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, 'music.db');
+    debugPrint('Database path: $path');
+    
+    bool exists = await databaseExists(path);
+    debugPrint('Database exists: $exists');
+    
     _database = await _initDB('music.db');
     return _database!;
   }
@@ -19,7 +28,7 @@ class DatabaseHelper {
     final path = join(dbPath, filePath);
 
     // Delete existing database
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
 
     return await openDatabase(
       path,
@@ -43,11 +52,28 @@ class DatabaseHelper {
 
   Future<void> insertFavorite(Music music) async {
     final db = await instance.database;
-    await db.insert(
-      'favorites',
-      music.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    debugPrint('Attempting to insert: ${music.toMap()}');
+    
+    try {
+      await db.insert(
+        'favorites',
+        music.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      
+      final inserted = await db.query(
+        'favorites',
+        where: 'id = ?',
+        whereArgs: [music.id],
+      );
+      debugPrint('Verification after insert: $inserted');
+      
+      final allRows = await db.query('favorites');
+      debugPrint('All rows after insert: $allRows');
+    } catch (e, stackTrace) {
+      debugPrint('Error inserting: $e');
+      debugPrint('Stack trace: $stackTrace');
+    }
   }
 
   Future<void> deleteFavorite(String id) async {
@@ -60,10 +86,16 @@ class DatabaseHelper {
   }
 
   Future<List<Music>> getFavorites() async {
-    final db = await instance.database;
-    final List<Map<String, dynamic>> maps = await db.query('favorites');
-    return List.generate(maps.length, (i) {
-      return Music.fromJson(maps[i])..isFavorite = true;
-    });
+    try {
+      final db = await instance.database;
+      final List<Map<String, dynamic>> maps = await db.query('favorites');
+      debugPrint('Loading favorites from DB: $maps');
+      return List.generate(maps.length, (i) {
+        return Music.fromJson(maps[i])..isFavorite = true;
+      });
+    } catch (e) {
+      debugPrint('Error loading favorites: $e');
+      return [];
+    }
   }
 }
