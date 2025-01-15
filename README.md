@@ -14,6 +14,6 @@ Topik yang diberikan adalah Musik
 - Aplikasi menyimpan data favorit di local storage (SQLite)
 
 ## Tampilan
-![All Music](https://github.com/user-attachments/assets/16406edc-391f-4771-9b40-dd4a137289c5)
-![Favorites](https://github.com/user-attachments/assets/ff61a6e5-e560-451e-9c53-b6d6290a2ea1)
-![Detail](https://github.com/user-attachments/assets/54b4e6db-8169-4829-99e0-b75e8cebd60e)
+![All Music](https://github.com/user-attachments/assets/36f351d2-9b53-4fe5-ad6f-3298a369be52)
+![Favorites](https://github.com/user-attachments/assets/bd3cb986-b495-45b5-8cff-00ef33bfc4b1)
+![Detail](https://github.com/user-attachments/assets/452031a3-febb-4906-a255-5b2878927573)
