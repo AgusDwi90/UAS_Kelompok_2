@@ -36,13 +36,13 @@ class _MusicListScreenState extends State<MusicListScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Music App'),
+          title: const Text('Music Gallery'),
           bottom: TabBar(
             indicatorColor: Colors.white, // Warna garis indikator tab
             labelColor: Colors.white, // Warna teks tab saat dipilih
             unselectedLabelColor: Colors.grey[400], // Warna teks tab yang tidak dipilih
             labelStyle: const TextStyle( // Gaya teks tab saat dipilih
-              fontSize: 18, // Ukuran teks untuk tab yang dipilih
+              fontSize: 20, // Ukuran teks untuk tab yang dipilih
               fontWeight: FontWeight.bold, // Contoh tambahan: teks tebal
             ),
             unselectedLabelStyle: const TextStyle( // Gaya teks tab yang tidak dipilih
