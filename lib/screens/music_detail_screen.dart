@@ -31,7 +31,7 @@ class MusicDetailScreen extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.blue[800],
+        backgroundColor: const Color.fromARGB(255, 21, 96, 182),
         actions: [
           Consumer<FavoriteProvider>(
             builder: (context, favoriteProvider, child) {
@@ -124,7 +124,7 @@ class MusicDetailScreen extends StatelessWidget {
                 label: const Text('Play Now'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, backgroundColor: Colors.blue[800],
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   textStyle: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
