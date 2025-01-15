@@ -113,8 +113,8 @@ class _MusicListScreenState extends State<MusicListScreen> {
         final isFavorite = favoriteProvider.isFavorite(music.id);
 
         return Card(
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          elevation: 3,
+          margin: const EdgeInsets.symmetric(vertical: 2),
+          elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -143,9 +143,10 @@ class _MusicListScreenState extends State<MusicListScreen> {
                   ),
             ),
             subtitle: Text(
-              '${music.artistName} • ${music.genre}',
+              '${toTitleCase(music.artistName)} - ${toTitleCase(music.genre)}',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Colors.grey[700],
+                    fontWeight: FontWeight.w400,
                   ),
             ),
             trailing: IconButton(
