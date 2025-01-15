@@ -13,7 +13,6 @@ Dengan Anggota :
 - Aplikasi menyimpan data favorit di local storage (SQLite)
 
 ## Tampilan
-![All Music](https://github.com/user-attachments/assets/2dbf88ed-3380-41ef-b3d0-bb3765362077)
-![Favorites](https://github.com/user-attachments/assets/c1a61e6c-1234-4613-af44-91b5af1182a1)
-![Detail](https://github.com/user-attachments/assets/afd31090-f3dc-4864-aebb-c6bf9c542b17)
-
+![All Music](https://github.com/user-attachments/assets/7d708027-c13b-4272-a5fc-42e2346af015)
+![Favorites](https://github.com/user-attachments/assets/201eb4c7-45d8-40f0-8324-74dd925a8156)
+![Detail](https://github.com/user-attachments/assets/921e9707-166b-46c0-8746-4c136a77f4cc)
