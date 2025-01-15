@@ -31,7 +31,7 @@ class MusicDetailScreen extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor: const Color.fromARGB(255, 21, 96, 182),
+        backgroundColor: const Color.fromARGB(255, 13, 71, 161),
         actions: [
           Consumer<FavoriteProvider>(
             builder: (context, favoriteProvider, child) {
